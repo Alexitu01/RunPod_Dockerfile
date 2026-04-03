@@ -18,6 +18,8 @@ RUN python3.11 -m pip install \
 RUN mkdir /workspace
 WORKDIR /workspace
 
+COPY ./ .
+
 RUN git clone --recursive https://github.com/ZiYang-xie/WorldGen.git --depth 1 && \
     cd WorldGen && \
     python3.11 -m pip install . && \
