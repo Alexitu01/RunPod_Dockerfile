@@ -39,10 +39,10 @@ RUN git clone https://github.com/Insta360-Research-Team/DA360 \
 # DAP submodule (also needed as fallback)
 RUN git submodule update --init --recursive --depth 1
 
-# plyfile — listed as optional in README but needed for .ply export
+# plyfile - listed as optional in README but needed for .ply export
 RUN pip install --no-cache-dir plyfile
 
-# runpod — your existing infrastructure requirement
+# runpod 
 RUN pip install --no-cache-dir runpod
 
 WORKDIR /workspace
