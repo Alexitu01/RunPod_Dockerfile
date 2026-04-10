@@ -39,7 +39,6 @@ async def handler(event):
     #Turn the uploaded bytestring of the image into the image type that worldgen expects: 'Image' object from PIL
     _image = Image.open(BytesIO(base64.b64decode(_input.get('image'))))
     _image.load()
-    splat = worldgen.generate_world(image= _image, prompt=_input.get('prompt')) #Generate 3D world in form of splat
 
     #Define a unique name for the .ply file with the current time.
     filename = str(datetime.now().timestamp()) + ".ply"
