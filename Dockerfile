@@ -21,8 +21,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN mkdir /workspace
 WORKDIR /workspace
 
-# Clone SPAG4D
-RUN git clone https://github.com/cedarconnor/SPAG4d.git --depth 1
+# Clone SPAG4D, with parameter 'Fuzzy' removed from gdown.download.
+RUN git clone https://github.com/Alexitu01/SPAG4d --depth 1
 WORKDIR /workspace/SPAG4d
 
 # PyTorch — cu121 as specified in README
@@ -35,7 +35,9 @@ RUN pip install --no-cache-dir torch torchvision \
     # DAP submodule (also needed as fallback)
     git submodule update --init --recursive --depth 1 && \
     # plyfile - listed as optional in README but needed for .ply export
-    pip install --no-cache-dir plyfile
+    pip install --no-cache-dir plyfile && \
+    #upgrade gdown to avoid issue with old version.
+    pip install --upgrade gdown
     
 #Dependencies - first: runpod
 RUN pip install --no-cache-dir runpod && \

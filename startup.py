@@ -18,6 +18,11 @@ from googleapiclient.http import MediaFileUpload
 # Skipped if weights already exist from a previous run
 def ensure_models():
     model_dir = os.environ.get("SPAG4D_MODEL_DIR", "/runpod-volume/spag4d_models")
+    if not os.path.exists(model_dir):
+        os.mkdir("/runpod-volume/huggingface/data_Cache")
+        os.mkdir("/runpod-volume/huggingface/model_Cache")
+        os.mkdir("/runpod-volume/tmp")
+        os.mkdir("/runpod-volume/spag4d_models")
     marker = os.path.join(model_dir, ".models_downloaded")
     if not os.path.exists(marker):
         print("Downloading SPAG4D model weights...")
@@ -30,7 +35,6 @@ def ensure_models():
     else:
         print("Model weights already present, skipping download.")
  
-ensure_models()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
@@ -39,6 +43,7 @@ converter = SPAG4D(device=device)
 
 async def handler(event):
     
+    ensure_models()
     _input = event['input']
     #Turn the uploaded bytestring of the image into the image type that SPAG4D expects: 'Image' object from PIL
     _image = Image.open(BytesIO(base64.b64decode(_input.get('image'))))
